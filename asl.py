@@ -33,7 +33,7 @@ classifier.add(Dropout(0.40))
 classifier.add(Dense(units=96, activation='relu'))
 classifier.add(Dropout(0.40))
 classifier.add(Dense(units=64, activation='relu'))
-classifier.add(Dense(units=27, activation='softmax')) # softmax for more than 2
+classifier.add(Dense(units=3, activation='softmax')) # softmax for more than 2 27 units
 
 # Compiling the CNN
 classifier.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy']) # categorical_crossentropy for more than 2
@@ -52,28 +52,28 @@ train_datagen = ImageDataGenerator(
 
 test_datagen = ImageDataGenerator(rescale=1./255)
 
-training_set = train_datagen.flow_from_directory('train',
+training_set = train_datagen.flow_from_directory('train2',
                                                  target_size=(sz, sz),
                                                  batch_size=10,
                                                  color_mode='grayscale',
                                                  class_mode='categorical')
 
-test_set = test_datagen.flow_from_directory('test',
+test_set = test_datagen.flow_from_directory('test2',
                                             target_size=(sz , sz),
                                             batch_size=10,
                                             color_mode='grayscale',
                                             class_mode='categorical')
 classifier.fit_generator(
         training_set,
-        steps_per_epoch=12841, # No of images in training set
+        steps_per_epoch=657, # No of images in training set12841
         epochs=5,
         validation_data=test_set,
-        validation_steps=4268)# No of images in test set
+        validation_steps=373)# No of images in test set4268
 
 # Saving the model
 model_json = classifier.to_json()
-with open("model-bw.json", "w") as json_file:
+with open("model-bw2.json", "w") as json_file:
     json_file.write(model_json)
 print('Model Saved')
-classifier.save_weights('model-bw.h5')
+classifier.save_weights('model-bw2.h5')
 print('Weights saved')
